@@ -2,8 +2,10 @@
 <html>
 <head>
     <title>義竹旅遊網</title>
+    <script src="js/weather.js" defer></script>
     <link rel="stylesheet" href="CSS/MyReset.css">
     <link rel="stylesheet" href="CSS/style.css">
+    
 
 </head>
 <body>
@@ -33,7 +35,27 @@
         </div>
     </div>
     <!--影片&圖片輪播區-->
-    <div class="hero-banner"><div class="forecast"></div></div>
+    <div class="hero-banner">
+        <div class="weather-card">
+            <div class="weather-main">
+                <div class="icon">🌤️</div>
+                <div class="temp">--°C</div>
+                <div class="desc">載入中...</div>
+            </div>
+            <div class="weather-info">
+                <div class="Date"><span>📅</span><span class="innerDate">--月--日 (--)</span></div>
+                <div class="location">📍義竹鄉</div>
+            </div>
+            <div class="weather-details">
+                <span>☔降雨機率 <span class="rain">--%</span></span>
+                <span>👕舒適度 <span class="comfort">--</span></span>
+            </div>
+            <div class="sun-details">
+                <span>🌅日出時間 <span class="sunrise">--:--</span></span>
+                <span>🌇日落時間 <span class="sunset">--:--</span></span>
+            </div>
+        </div>
+    </div>
     
 </body>
 </html>
