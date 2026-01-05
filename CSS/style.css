@@ -26,6 +26,25 @@ p {
 /*============================================
     2.Shared Components
   ============================================*/
+.ToTop{
+    position: fixed;
+    background-color: #909d71;
+    height: 40px;
+    width: 40px;
+    z-index: 1000;
+    bottom: 25px;
+    right: 25px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: 0.3s;
+}
+.ToTop img{
+    height: 40px;
+    width: 40px;
+}
+.ToTop.ToTopshow{
+    opacity: 1;
+}
 .navbar{
     display:flex;
     align-items: center;
@@ -67,9 +86,48 @@ p {
     justify-content: center;
     align-items: center;
 }
+.footer-container {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    align-items: flex-start; /* 靠上對齊 */
+    gap: 120px;              /* ★ 關鍵：控制兩個區塊中間的距離 (覺得太近改大，太遠改小) */
+    flex-wrap: wrap;         /* 手機版不夠寬時自動換行變垂直排列 */
+    padding: 0 20px;         /* 左右留一點緩衝 */
+}
+
+/* 新增：每個內容區塊的設定 */
+.footer-content {
+    text-align: left;        /* 內容靠左對齊 */
+    min-width: 200px;        /* 確保最小寬度 */
+}
+
+/* ★ 關鍵：強制列表文字「絕對不換行」 */
+.footer-container ul li {
+    white-space: nowrap;
+}
 .links:hover{
     color: #3f1a12;
     background-color: #ded3bf;
+}
+/* --- Footer 樣式 --- */
+.footer-section {
+    background-color: #3f1a12; /* 深咖啡色，與你的 Hover 顏色呼應 */
+    padding: 60px 0 30px 0;    /* 上下留白 */
+    margin-top: auto;          /* 如果頁面內容少，盡量把 Footer 推到底部 */
+}
+
+/* Footer 裡面的連結 */
+.footer-link {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 10px;
+    transition: all 0.3s;
+}
+
+.footer-link:hover {
+    color: #ded3bf; /* 滑鼠移過去變淺米色 */
+    padding-left: 5px; /* 移過去稍微往右動一點的小特效 */
 }
 /*============================================
     3.Home Page
@@ -199,8 +257,39 @@ p {
 .images:hover, .videos:hover {
     opacity: 1;
 }
+.btn-yijhu {
+    background-color: #314743; /* 深綠色，配合你的連結顏色 */
+    color: white;
+    border: 2px solid #314743;
+    transition: all 0.3s;
+}
+
+.btn-yijhu:hover {
+    background-color: white;
+    border: 2px solid #314743;
+    color: #314743;
+    transform: translateX(5px); /* 滑鼠移過去會往右移動一點點 */
+}
+
+/* 讓文字左右對齊，閱讀起來比較舒服 */
+.text-justify {
+    text-align: justify;
+    text-justify: inter-ideograph;
+}
 /*============================================
-    3.Raffle
+    4.introduce
+  ============================================*/
+  /* 卡片懸浮特效 */
+.place-card-hover {
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+.place-card-hover:hover {
+    transform: translateY(-5px); /* 往上浮 */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+}
+/*============================================
+    6.Raffle
   ============================================*/
   /* --- 抽籤頁面專用樣式 --- */
 

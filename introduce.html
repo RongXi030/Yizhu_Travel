@@ -7,9 +7,15 @@
 
 </head>
 <body>
+    <script src="JS/placesData.js"></script>
+    <script src="JS/totop.js" defer></script>
+    <script src="JS/introcard.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <a href="#top" class="ToTop"><img src="media/up.svg"></a>
     <!--導覽列-->
-    <div class="navbar">
+    <div class="navbar" id="top">
 
         <!--義竹旅遊網icon-->
         <a class="logo" href="index.html"></a>
@@ -29,9 +35,105 @@
             <!--抽籤按鈕-->
             <a href="raffle.html" class="links">『義』點迷津</a>
             
-
+            <a href="#contactus" class="links">聯絡我們</a>
         </div>
     </div>
+
+    
+
+<div class="container my-5" style="min-height: 800px;">
+    <div class="row">
+        
+        <div class="col-md-3 mb-4">
+            <div class="list-group sticky-top" style="top: 120px; z-index: 1;">
+                <div class="list-group-item bg-dark text-white fw-bold">
+                    導覽目錄
+                </div>
+                <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#tab-intro">
+                    關於義竹
+                </a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#tab-spots">
+                    義竹景點
+                </a>
+                <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#tab-events">
+                    年度活動
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="tab-content">
+                
+                <div class="tab-pane fade show active" id="tab-intro">
+                    <div class="bg-white p-4 rounded shadow-sm border">
+                        <h2 class="fw-bold mb-4" style="color: #3f1a12;">義竹鄉的歷史與文化</h2>
+                        <img src="media/carousel/img1.JPG" class="img-fluid rounded mb-3 w-100" alt="義竹風景">
+                        <p class="lh-lg">
+                            這裡可以放入你在首頁寫的那段詳細文章，或者是更深入的介紹。
+                            義竹鄉位於嘉義縣西南端，八掌溪北岸...（此處省略長文）。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade show active" id="tab-intro"></div>
+
+                <div class="tab-pane fade" id="tab-spots">
+                    <h3 class="fw-bold mb-3 border-start border-5 border-success ps-3">義竹景點</h3>
+                    <div id="spotsContainer" class="row g-4"></div>
+                </div>
+                <div id="modalsContainer"></div>
+
+                <div class="tab-pane fade" id="tab-events">
+                    <h3 class="fw-bold mb-3 border-start border-5 border-warning ps-3">精彩活動</h3>
+                    <div class="row g-4">
+                         <div class="col-md-12">
+                            <div class="card shadow-sm mb-3">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="media/carousel/img2.JPG" class="img-fluid rounded-start h-100" style="object-fit: cover;" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title fw-bold">賽鴿笭文化季</h5>
+                                            <p class="card-text">義竹鄉特有的傳統民俗活動，每年農曆二、三月間舉行，展現農村的活力與智慧。</p>
+                                            <p class="card-text"><small class="text-body-secondary">📅 活動時間：每年春季</small></p>
+                                            <button class="btn btn-sm btn-warning text-white fw-bold">活動詳情</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
     
 </body>
+<footer class="footer-section" id="contactus">
+    <div class="footer-container">
+        
+        <div class="footer-content">
+            <h3 class="fw-bold text-white mb-3">快速連結</h3>
+            <ul class="list-unstyled fs-5">
+                <li><a href="index.html" class="footer-link">首頁</a></li>
+                <li><a href="introduce.html" class="footer-link">義竹簡介</a></li>
+                <li><a href="map.html" class="footer-link">地圖導覽</a></li>
+                <li><a href="raffle.html" class="footer-link">景點抽籤</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-content">
+            <h3 class="fw-bold text-white mb-3">聯絡我們</h3>
+            <ul class="list-unstyled text-white-50 small fs-5">
+                <li class="mb-2">📍 嘉義市新民路580號</li>
+                <li class="mb-2">📞 05-123-4567</li>
+                <li class="mb-2">✉️ yijhu-travel@gmail.com</li>
+            </ul>
+        </div>
+    </div>
+</footer>
 </html>

@@ -1,14 +1,5 @@
 // 模擬義竹景點資料 (實務上可以從 API 抓)
-const placesData = [
-    { id: 1, name: "翁岳生祖居", img: "./media/intro/id-01.JPG", desc: "明治時期的閩南古厝，如何孕育出台灣五任大法官？走進「存德堂」，除了珍貴的法學手稿與老照片，更藏著一段跨越世紀的動人故事...", addr: "義竹鄉六桂村" },
-    { id: 2, name: "馨滿義竹--義竹舊車站", img: "./media/intro/id-02.JPG", desc: "回到日本時代的義竹，火車鳴笛聲中總夾雜著淡淡糖香。這裡曾是「糖業王國」的樞紐，更藏著一段蔗農子弟獨有的搭車記憶。想知道這條鐵道背後的故事...", addr: "義竹鄉台19線旁" },
-    { id: 3, name: "翁清江古厝", img: "./media/intro/id-03.JPG", desc: "義竹鄉間竟藏著荷蘭人設計的豪宅？融合閩日西三種風格，門楣上的神祕盾牌更暗藏玄機。一窺前中研院院長翁啟惠祖居的真實風貌...", addr: "八掌溪沿岸" },
-    { id: 4, name: "東後寮教會", img: "./media/intro/id-04.JPG", desc: "義竹路旁的紅磚秘境，竟是南台灣罕見的「巴西力卡式」老教堂！1927年的絕美拱窗與精湛英格蘭砌法，邀你走入這份百年的神聖寧靜...", addr: "義竹鄉六桂村245號" },
-    { id: 5, name: "東榮村火車頭公園", img: "./media/intro/id-05.JPG", desc: "東後寮的鐵道旁，時間彷彿走得特別慢。昔日的五分車與不老的水牛，守候著被封存的糖業記憶。不需要趕車，只需漫步舊鐵軌，聆聽這段凝結的歲月...", addr: "義竹鄉六桂村" },
-    { id: 6, name: "中正堂彩繪", img: "./media/intro/id-06.JPG", desc: "巨大的英文字母上，竟藏著無數張珍貴老照片？這座結合歷史與現代的裝置藝術，訴說著義竹人的集體回憶。來這裡用鏡頭閱讀故事，發現更多隱藏驚喜...", addr: "義竹鄉埤前村" },
-    { id: 7, name: "義竹修緣禪寺", img: "./media/intro/id-07.JPG", desc: "義竹田間竟藏著一座氣勢磅礡的皇宮級建築！「修緣」二字源自濟公俗名，這裡不只鐘鼓樓巍峨聳立，更充滿「笑看人生」的自在氛圍。想領悟這份獨特的豁達...", addr: "義竹鄉後鎮村" },
-    { id: 8, name: "義竹慈化寺", img: "./media/intro/id-08.JPG", desc: "義竹鄉半數人口都姓翁，守護這個顯赫世家的竟是這尊「祖佛」！從康熙年間的私家神壇變身宏偉仿宋宮殿，慈化寺藏著一段跨海而來的開墾傳奇...", addr: "義竹鄉竿子寮" }
-];
+
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,7 +20,7 @@ function renderSourceList() {
             <div class="form-check">
                 <input class="form-check-input place-checkbox" type="checkbox" value="${place.id}" id="check-${place.id}" onchange="updateSelectedCount()">
             </div>
-            <img src="${place.img}" class="place-img" alt="${place.name}">
+            <img src="${place.cover}" class="place-img" alt="${place.name}">
             <div class="flex-grow-1">
                 <h6 class="mb-0 fw-bold">${place.name}</h6>
             </div>
@@ -82,8 +73,12 @@ function showInfo(id) {
     if (!place) return;
 
     document.getElementById('modalTitle').innerText = place.name;
-    document.getElementById('modalImg').src = place.img;
+    document.getElementById('modalImg').src = place.cover;
     document.getElementById('modalDesc').innerText = place.desc;
+    const linkBtn = document.getElementById('modalLink');
+    if (linkBtn) {
+        linkBtn.href = `introduce.html?spot=modal-spot${place.id}`;
+    }
     // document.getElementById('modalAddr').innerText = place.addr;
 
     const modal = new bootstrap.Modal(document.getElementById('infoModal'));
@@ -148,7 +143,7 @@ function renderResults(results) {
 
         card.innerHTML = `
             <span class="fs-4 me-3 handle">≡</span>
-            <img src="${place.img}" class="place-img" style="margin-left:0;">
+            <img src="${place.cover}" class="place-img" style="margin-left:0;">
             <div class="flex-grow-1">
                 <h6 class="mb-0 fw-bold place-name">${place.name}</h6>
             </div>
