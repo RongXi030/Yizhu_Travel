@@ -66,7 +66,7 @@ function selectAll(isChecked) {
     checkboxes.forEach(cb => cb.checked = isChecked);
     updateSelectedCount();
 }
-
+let currentModal = null;
 // 4. Modal 顯示詳情
 function showInfo(id) {
     const place = placesData.find(p => p.id === id);
@@ -78,46 +78,113 @@ function showInfo(id) {
     const linkBtn = document.getElementById('modalLink');
     if (linkBtn) {
         linkBtn.href = `introduce.html?spot=modal-spot${place.id}`;
+        linkBtn.onclick = function() {
+            if (currentModal) {
+                currentModal.hide(); // 這樣就不會擋住 href 的跳轉了！
+            }
+        };
     }
     // document.getElementById('modalAddr').innerText = place.addr;
 
-    const modal = new bootstrap.Modal(document.getElementById('infoModal'));
-    modal.show();
+    const modalEl = document.getElementById('infoModal');
+    
+    // 使用 getOrCreateInstance 避免重複建立導致錯誤
+    currentModal = bootstrap.Modal.getOrCreateInstance(modalEl); 
+    currentModal.show();
 }
 
 // 5. 開始抽籤 (核心邏輯)
 function startRaffle() {
-    const checkedBoxes = document.querySelectorAll('.place-checkbox:checked');
-    const drawNum = parseInt(document.getElementById('drawCount').value);
-
-    // 防呆
-    if (checkedBoxes.length === 0) {
-        alert("請至少勾選一個地點！");
-        return;
-    }
-    if (drawNum > checkedBoxes.length) {
-        alert("抽選數量不能大於勾選數量！");
+    // 1. 取得所有被勾選的來源項目
+    const selectedIds = Array.from(document.querySelectorAll('.place-checkbox:checked')).map(cb => parseInt(cb.value));
+    
+    if (selectedIds.length === 0) {
+        alert("請先在左側勾選想去的景點！");
         return;
     }
 
-    // 取得所有被勾選的資料
-    const selectedPlaces = [];
-    checkedBoxes.forEach(cb => {
-        const id = parseInt(cb.value);
-        selectedPlaces.push(placesData.find(p => p.id === id));
+    // 2. 取得抽選數量 (關鍵修正！)
+    const countInput = document.getElementById('drawCount');
+    let drawCount = countInput ? parseInt(countInput.value) : 3;
+
+    // 防呆：如果選擇的數量大於勾選的數量，就只抽勾選的數量
+    if (drawCount > selectedIds.length) {
+        drawCount = selectedIds.length;
+    }
+
+    // 3. 取得景點資料並隨機打亂
+    const selectedPlaces = placesData.filter(p => selectedIds.includes(p.id));
+    
+    // ★ 這裡加上了 .slice(0, drawCount)，才會只取前 N 個！
+    const results = selectedPlaces.sort(() => 0.5 - Math.random()).slice(0, drawCount); 
+
+    const resultSection = document.getElementById('resultSection');
+    if (resultSection) {
+        resultSection.classList.remove('d-none'); // ✨ 移除隱藏，讓它出現
+        
+        // (選用) 自動滾動到詳細資訊區，讓使用者知道下面有東西
+        // setTimeout(() => {
+        //    resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // }, 100);
+    }
+
+
+    // --- 4. 渲染右側列表 (Result List) ---
+    const resultList = document.getElementById('resultList');
+    resultList.innerHTML = ""; 
+    
+    // --- 5. 渲染下方卡片區 (Card Container) ---
+    const cardsContainer = document.getElementById('resultCardsContainer');
+    if (cardsContainer) {
+        cardsContainer.innerHTML = ""; // 先清空
+    }
+
+    results.forEach((place, index) => {
+        // A. 生成列表項目 (右側)
+        const item = document.createElement('div');
+        item.className = "place-card result-card"; 
+        item.draggable = true;
+        item.dataset.id = place.id;
+        item.dataset.name = place.name;
+        
+        item.innerHTML = `
+            <span class="fs-4 me-3 handle">≡</span>
+            <img src="${place.cover}" class="place-img" style="margin-left:0;">
+            <div class="flex-grow-1">
+                <h6 class="mb-0 fw-bold place-name">${place.name}</h6>
+            </div>
+            <button class="btn btn-sm text-danger fs-2 border-0 bg-transparent" onclick="removeResult(this)" title="移除此地點">
+                &times;
+            </button>
+        `;
+        
+        addDragEvents(item); // 綁定拖曳
+        resultList.appendChild(item);
+
+        // B. 生成詳細卡片 (下方)
+        if (cardsContainer) {
+            const gridCol = document.createElement('div');
+            gridCol.className = "col-md-6 col-lg-3 result-grid-card"; 
+            gridCol.dataset.id = place.id; // 綁定 ID 方便刪除
+            
+            // 這裡用 onclick="showInfo(${place.id})" 來開啟原本的 Modal
+            gridCol.innerHTML = `
+                <div class="card h-100 shadow-sm border-0 place-card-hover">
+                    <img src="${place.cover}" class="card-img-top" style="height: 180px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title fw-bold text-center mb-3">${place.name}</h5>
+                        <button class="btn btn-outline-success w-100 rounded-pill mt-auto" onclick="showInfo(${place.id})">
+                            查看詳情
+                        </button>
+                    </div>
+                </div>
+            `;
+            cardsContainer.appendChild(gridCol);
+        }
     });
 
-    // 洗牌演算法 (Fisher-Yates Shuffle)
-    for (let i = selectedPlaces.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [selectedPlaces[i], selectedPlaces[j]] = [selectedPlaces[j], selectedPlaces[i]];
-    }
-
-    // 取出前 N 個
-    const results = selectedPlaces.slice(0, drawNum);
-
-    // 渲染結果到左側
-    renderResults(results);
+    // 更新起點/終點標記
+    updateFlags();
 }
 
 // 6. 渲染結果並加入拖放功能
@@ -218,6 +285,50 @@ function updateFlags() {
     }
 }
 
+function getDistance(lat1, lng1, lat2, lng2) {
+    const R = 6371; // 地球半徑 (km)
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+// 2. 規劃最佳路徑 (最近鄰居法)
+function optimizeRouteOrder(places) {
+    // 如果地點少於 3 個，不用排，直接回傳
+    if (places.length < 3) return places;
+
+    // 複製一份名單，避免動到原本的
+    let remaining = [...places];
+    
+    // 步驟 A: 固定「第一張卡」當作起點 (Start)
+    let sortedPlaces = [remaining.shift()]; 
+
+    // 步驟 B: 迴圈找出最近的下一站
+    while (remaining.length > 0) {
+        let current = sortedPlaces[sortedPlaces.length - 1]; // 目前所在地
+        let nearestIndex = 0;
+        let minDist = Infinity;
+
+        // 在剩下的地點中，找一個離目前最近的
+        remaining.forEach((place, index) => {
+            const dist = getDistance(current.lat, current.lng, place.lat, place.lng);
+            if (dist < minDist) {
+                minDist = dist;
+                nearestIndex = index;
+            }
+        });
+
+        // 把最近的那個加入已規劃名單，並從剩餘名單移除
+        sortedPlaces.push(remaining[nearestIndex]);
+        remaining.splice(nearestIndex, 1);
+    }
+
+    return sortedPlaces;
+}
+
 // 9. 產生 Google Maps 連結
 function generateRoute() {
     const cards = document.querySelectorAll('.result-card');
@@ -225,42 +336,147 @@ function generateRoute() {
         alert("請先抽籤產生景點！");
         return;
     }
-
-    const places = [...cards].map(c => c.dataset.name);
-    
-    // Google Maps URL 格式:
-    // https://www.google.com/maps/dir/?api=1&origin=起點&destination=終點&waypoints=中間點1|中間點2
-    
-    const origin = encodeURIComponent(places[0]); // 起點
-    const destination = encodeURIComponent(places[places.length - 1]); // 終點
-    
-    let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
-
-    // 如果有中間點
-    if (places.length > 2) {
-        const waypoints = places.slice(1, -1).map(p => encodeURIComponent(p)).join('|');
-        url += `&waypoints=${waypoints}`;
+    if (cards.length > 9) {
+        alert("GoogleMap最多支援9個停靠站!");
+        return;
     }
 
-    // 在新分頁開啟
+    const routePoints = [...cards].map(card =>{
+        const id = parseInt(card.dataset.id);
+        const place = placesData.find(p => p.id === id);
+        return place ? `${place.lat},${place.lng}`:null;
+    }).filter(p => p !== null);
+
+    let url=``;
+    if(routePoints.length === 1){
+        url = `https://www.google.com/maps/dir/?api=1&destination=${routePoints[0]}`;
+    }else if(routePoints.length>1){
+        const destination = routePoints[routePoints.length-1];
+        const waypoints = routePoints.slice(0, -1).join('|');
+        url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&waypoints=${waypoints}`;
+    }
     window.open(url, '_blank');
 }
 
 // 10. 刪除單一結果的函式
 function removeResult(btn) {
-    // 1. 找到這顆按鈕所在的卡片，並把它移除
-    const card = btn.closest('.result-card');
-    card.remove();
+    // 1. 找到左側列表中被點擊的卡片
+    const listCard = btn.closest('.result-card');
+    
+    if (listCard) {
+        const id = listCard.dataset.id; // 取得該卡片的 ID
 
-    // 2. 重新計算目前剩下的卡片數量
-    const remainingCards = document.querySelectorAll('.result-card');
-    document.getElementById('resultCount').innerText = remainingCards.length;
+        // 2. ✨ 同步刪除下方對應的大卡片
+        // 利用屬性選擇器找到 ID 一樣的那張卡
+        const gridCard = document.querySelector(`.result-grid-card[data-id="${id}"]`);
+        if (gridCard) {
+            // 加一點淡出動畫 (選用)
+            gridCard.style.transition = "opacity 0.3s";
+            gridCard.style.opacity = "0";
+            setTimeout(() => gridCard.remove(), 300);
+        }
 
-    // 3. 如果刪光了 (剩餘數量為 0)，就把「空狀態」顯示回來
-    if (remainingCards.length === 0) {
-        document.getElementById('emptyState').style.display = "block";
+        // 3. 刪除左側列表卡片
+        listCard.remove();
+        
+        // 4. 更新起點/終點標記
+        updateFlags();
+        const remainingCards = document.querySelectorAll('.result-card');
+        if (remainingCards.length === 0) {
+            const resultSection = document.getElementById('resultSection');
+            if (resultSection) {
+                resultSection.classList.add('d-none'); // ✨ 如果剩 0 個，就把它藏起來
+            }
+        }
+    }
+}
+
+// --- 新增功能：計算並顯示最佳路徑 ---
+
+// 全域變數，用來暫存算好的最佳順序 (給導航按鈕用)
+let optimizedPlacesCache = [];
+
+function calculateAndShowOptimized() {
+    // 1. 取得目前畫面上的卡片 (使用者可能拖曳過，或者刪除過)
+    const currentCards = document.querySelectorAll('.result-card');
+    
+    if (currentCards.length < 2) {
+        alert("地點太少，不需要規劃順序喔！直接導航即可。");
+        return;
     }
 
-    // 4. 因為順序變了 (或起點終點被刪了)，要重新更新旗幟
-    updateFlags();
+    // 2. 轉回資料物件
+    let currentPlaces = Array.from(currentCards).map(card => {
+        const id = parseInt(card.dataset.id);
+        return placesData.find(p => p.id === id);
+    }).filter(p => p !== undefined);
+
+    // 3. 執行最佳化演算法 (使用你原本已寫好的 optimizeRouteOrder)
+    // 注意：這裡我們假設 optimizeRouteOrder 會回傳一個新的排序陣列
+    const sortedPlaces = optimizeRouteOrder(currentPlaces);
+    
+    // 存到全域變數，等下按鈕要用
+    optimizedPlacesCache = sortedPlaces;
+
+    // 4. 渲染到畫面上
+    const container = document.getElementById('optimizedPathContainer');
+    container.innerHTML = ""; // 清空
+
+    sortedPlaces.forEach((place, index) => {
+        // 判斷是否為起點或終點
+        let statusClass = "";
+        if (index === 0) statusClass = "start";
+        else if (index === sortedPlaces.length - 1) statusClass = "end";
+
+        // 產生卡片 HTML
+        const stepHtml = `
+            <div class="opt-step ${statusClass}">
+                <div class="opt-badge">${index + 1}</div>
+                <img src="${place.cover}" class="opt-img">
+                <div class="opt-name">${place.name}</div>
+            </div>
+        `;
+        container.insertAdjacentHTML('beforeend', stepHtml);
+
+        // 如果不是最後一個，加上箭頭
+        if (index < sortedPlaces.length - 1) {
+            container.insertAdjacentHTML('beforeend', `<div class="opt-arrow">➜</div>`);
+        }
+    });
+
+    // 5. 顯示區塊並綁定按鈕事件
+    const section = document.getElementById('optimizedSection');
+    section.classList.remove('d-none');
+    
+    // 讓畫面滑動到這裡
+    section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 綁定導航按鈕事件
+    document.getElementById('btnOptimizedMap').onclick = function() {
+        openOptimizedMap(sortedPlaces);
+    };
+}
+
+// 專門用來開啟最佳化路徑的函式
+function openOptimizedMap(places) {
+    if (!places || places.length === 0) return;
+
+    if (places.length > 9) {
+        alert("Google Maps 最多支援 9 個地點導航！");
+        return; // 雖然通常這裡已經過濾過了，但保險起見
+    }
+
+    const routePoints = places.map(p => `${p.lat},${p.lng}`);
+    let url = "";
+
+    // 終點
+    const destination = routePoints[routePoints.length - 1];
+    
+    // 中途點 (扣掉最後一個作為終點)
+    // 邏輯：從現在位置 -> 第一站 -> 第二站 ... -> 終點
+    const waypoints = routePoints.slice(0, -1).join('|');
+    
+    url = `https://www.google.com/maps/dir/?api=1&destination=${destination}&waypoints=${waypoints}`;
+
+    window.open(url, '_blank');
 }

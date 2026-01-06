@@ -88,46 +88,38 @@ p {
 }
 .footer-container {
     display: flex;
-    justify-content: center; /* 水平置中 */
-    align-items: flex-start; /* 靠上對齊 */
-    gap: 120px;              /* ★ 關鍵：控制兩個區塊中間的距離 (覺得太近改大，太遠改小) */
-    flex-wrap: wrap;         /* 手機版不夠寬時自動換行變垂直排列 */
-    padding: 0 20px;         /* 左右留一點緩衝 */
+    justify-content: center;
+    align-items: flex-start;
+    gap: 120px;              
+    flex-wrap: wrap;         
+    padding: 0 20px;         
 }
-
-/* 新增：每個內容區塊的設定 */
 .footer-content {
-    text-align: left;        /* 內容靠左對齊 */
-    min-width: 200px;        /* 確保最小寬度 */
+    text-align: left;
+    min-width: 200px;
 }
-
-/* ★ 關鍵：強制列表文字「絕對不換行」 */
 .footer-container ul li {
     white-space: nowrap;
+    color: #1a2134;
 }
 .links:hover{
     color: #3f1a12;
     background-color: #ded3bf;
 }
-/* --- Footer 樣式 --- */
 .footer-section {
-    background-color: #3f1a12; /* 深咖啡色，與你的 Hover 顏色呼應 */
-    padding: 60px 0 30px 0;    /* 上下留白 */
-    margin-top: auto;          /* 如果頁面內容少，盡量把 Footer 推到底部 */
+    background-color: #e1c797;
+    padding: 60px 0 30px 0;
+    margin-top: auto;
 }
-
-/* Footer 裡面的連結 */
 .footer-link {
-    color: rgba(255, 255, 255, 0.6);
+    color: #1a2134;
     text-decoration: none;
     display: block;
     margin-bottom: 10px;
     transition: all 0.3s;
 }
-
 .footer-link:hover {
-    color: #ded3bf; /* 滑鼠移過去變淺米色 */
-    padding-left: 5px; /* 移過去稍微往右動一點的小特效 */
+    padding-left: 5px;
 }
 /*============================================
     3.Home Page
@@ -258,20 +250,17 @@ p {
     opacity: 1;
 }
 .btn-yijhu {
-    background-color: #314743; /* 深綠色，配合你的連結顏色 */
+    background-color: #314743;
     color: white;
     border: 2px solid #314743;
     transition: all 0.3s;
 }
-
 .btn-yijhu:hover {
     background-color: white;
     border: 2px solid #314743;
     color: #314743;
-    transform: translateX(5px); /* 滑鼠移過去會往右移動一點點 */
+    transform: translateX(5px);
 }
-
-/* 讓文字左右對齊，閱讀起來比較舒服 */
 .text-justify {
     text-align: justify;
     text-justify: inter-ideograph;
@@ -279,7 +268,6 @@ p {
 /*============================================
     4.introduce
   ============================================*/
-  /* 卡片懸浮特效 */
 .place-card-hover {
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
@@ -295,14 +283,12 @@ p {
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1000; /* 確保浮在地圖上面 */
+    z-index: 1000;
     display: flex;
     flex-direction: column;
     align-items: end;
     gap: 10px;
 }
-
-/* 自訂 Popup 樣式 */
 .custom-popup .leaflet-popup-content-wrapper {
     border-radius: 10px;
     padding: 0;
@@ -320,26 +306,20 @@ p {
 .popup-body {
     padding: 10px;
 }
-
 .my-map-tooltip {
     background-color: rgba(255, 255, 255, 0.95);
-    border: 2px solid #314743; /* 配合你的主色系 */
+    border: 2px solid #314743;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     padding: 5px;
     font-family: "微軟正黑體", sans-serif;
 }
-
-/* 讓 Tooltip 的小三角形也變色 (進階) */
 .my-map-tooltip::before {
     border-top-color: #314743;
 }
 /*============================================
     6.raffle
   ============================================*/
-  /* --- 抽籤頁面專用樣式 --- */
-
-/* 自訂滾動條 (讓介面看起來更乾淨) */
 .custom-scroll::-webkit-scrollbar {
     width: 8px;
 }
@@ -353,8 +333,6 @@ p {
 .custom-scroll::-webkit-scrollbar-thumb:hover {
     background: #aaa;
 }
-
-/* 地點卡片樣式 */
 .place-card {
     display: flex;
     align-items: center;
@@ -367,20 +345,16 @@ p {
     user-select: none;
     cursor: pointer;
 }
-
 .place-checkbox {
-    transform: scale(1.5); /* 放大 1.5 倍 */
+    transform: scale(1.5);
     cursor: pointer;
-    margin-right: 10px;    /* 稍微跟旁邊拉開一點距離 */
+    margin-right: 10px;
 }
-
 .place-card:hover {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     transform: translateY(-2px);
     border-color: #da7727;
 }
-
-/* 圖片樣式 */
 .place-img {
     width: 60px;
     height: 60px;
@@ -389,24 +363,17 @@ p {
     margin: 0 15px;
     background-color: #ddd;
 }
-
-/* 左側結果卡片 (可拖曳) */
 .result-card {
-    cursor: grab; /* 手掌游標 */
+    cursor: grab;
 }
-
 .result-card:active {
-    cursor: grabbing; /* 抓取中游標 */
+    cursor: grabbing;
 }
-
-/* 拖曳中的樣式 */
 .dragging {
     opacity: 0.5;
     background: #fdf3e8;
     border: 2px dashed #da7727;
 }
-
-/* 起點與終點標記 */
 .flag-start::before {
     content: "🚩 起點";
     font-size: 12px;
@@ -416,7 +383,6 @@ p {
     border-radius: 4px;
     margin-right: 8px;
 }
-
 .flag-end::before {
     content: "🏁 終點";
     font-size: 12px;
@@ -426,8 +392,6 @@ p {
     border-radius: 4px;
     margin-right: 8px;
 }
-
-/* 按鈕 Hover 特效 */
 .btn {
     transition: transform 0.1s;
 }
@@ -435,26 +399,22 @@ p {
     transform: scale(0.95);
 }
 .raffle-area.row {
-    height: 800px; /* 再次確保高度 */
+    height: 800px;
 }
-
-/* 確保左右兩欄的高度撐滿，這樣 flex-grow 才會生效，滾動條才會出現 */
 .raffle-area > .col-md-5,
 .raffle-area > .col-md-7 {
     height: 100%;
     max-height: 100%;
 }
-
-/* 確保列表區域真的可以滾動 */
 #sourceList, #resultList {
-    overflow-y: auto; /* 強制垂直滾動 */
-    height: 0;        /* 這是 Flexbox 的小技巧，設為 0 讓 flex-grow 去分配剩餘空間 */
+    overflow-y: auto; 
+    height: 0;      
     flex-grow: 1;
 }
 .flag-dest::before {
-    content: "📍 目的地";  /* 顯示文字 */
+    content: "📍 目的地";  
     font-size: 12px;
-    background: #0d6efd;   /* 藍色背景 (Bootstrap Primary) */
+    background: #0d6efd;  
     color: white;
     padding: 2px 6px;
     border-radius: 4px;
@@ -468,20 +428,69 @@ p {
     font-weight: bold;
 }
 .modaltext p {
-    margin: 0;           /* 拿掉預設外距 */
-    font-size: 16px;     /* 字體大小 */
-    
-    /* 1. 增加呼吸感：讓行與行之間不要太擠 */
+    margin: 0;          
+    font-size: 16px;     
     line-height: 1.6;    
-    
-    /* 2. 增加質感：字與字稍微拉開一點點 */
     letter-spacing: 1.2px; 
-
-    /* 3. 關鍵魔法：左右對齊 (讓右邊邊緣是直的) */
     text-align: justify;
-    text-justify: inter-ideograph; /* 針對中文字的最佳化對齊 */
-    
-    /* 4. 避免孤兒字：自動平衡每行的長度 (Chrome/Edge 新功能) */
+    text-justify: inter-ideograph;
     text-wrap: pretty; 
+}
+/* --- 最佳化路徑樣式 --- */
+.opt-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 120px;
+}
+
+.opt-badge {
+    background-color: #da7727;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 8px;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+.opt-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    border: 2px solid #eee;
+}
+
+.opt-name {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+}
+
+/* 連接箭頭 */
+.opt-arrow {
+    font-size: 20px;
+    color: #999;
+    margin-top: 30px; /* 對齊圖片中間 */
+}
+
+/* 起點特別樣式 */
+.opt-step.start .opt-badge {
+    background-color: #28a745;
+}
+
+/* 終點特別樣式 */
+.opt-step.end .opt-badge {
+    background-color: #dc3545;
 }
 

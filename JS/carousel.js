@@ -27,13 +27,12 @@ function switchTo(mode) {
 }
 
 myVideo.addEventListener('ended', () => {
-    console.log("影片播完了，自動切換到圖片...");
     switchTo('image');
 });
 
 
 window.addEventListener('load', () => {
     myVideo.play().catch(error => {
-        console.log("自動播放被瀏覽器擋住了，可能是因為沒有靜音", error);
+        console.log("自動播放", error);
     });
 });

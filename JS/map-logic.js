@@ -43,18 +43,8 @@ const layers = {
     food: L.layerGroup().addTo(map)          // 美食 (建議新增)
 };
 
-// 5. 載入「景點」資料 (來自 placesData.js)
-// 為了演示，我們需要假設 placesData 裡有 lat, lng 座標
-// 請記得去 placesData.js 補上座標屬性，例如: { id:1, lat: 23.334, lng: 120.243 ... }
-// 這裡我先用假座標演示邏輯
-const placesWithLoc = placesData.map((p, i) => ({
-    ...p, 
-    // 這裡只是模擬，實際上請你在 placesData.js 裡直接寫死正確座標
-    lat: 23.334 + (Math.random() * 0.01), 
-    lng: 120.243 + (Math.random() * 0.01)
-}));
 
-placesWithLoc.forEach(place => {
+placesData.forEach(place => {
     const marker = L.marker([place.lat, place.lng], { icon: spotIcon });
     
     // 綁定 Popup 內容 (跟抽籤卡片很像)
@@ -101,15 +91,14 @@ placesWithLoc.forEach(place => {
 // 2. 擴充設施資料 (記得確認實際座標)
 const amenities = [
     // 7-11
-    { name: "7-11 義竹門市", lat: 23.33749, lng: 120.24447, type: "store_711" },
-    { name: "7-11 二竹門市", lat: 23.33648, lng: 120.24245, type: "store_711" },
+    { name: "7-11 義竹門市", lat: 23.3374925, lng: 120.2444728, type: "store_711" },
+    { name: "7-11 二竹門市", lat: 23.3364845, lng: 120.2424541, type: "store_711" },
     
     // 萊爾富 (假設座標，請確認)
-    { name: "萊爾富 嘉縣義竹店", lat: 23.33550, lng: 120.24500, type: "store_hilife" },
+    { name: "萊爾富 嘉縣義竹店", lat: 23.3384752, lng: 120.248022, type: "store_hilife" },
 
     // 加油站
-    { name: "台灣中油 義竹站", lat: 23.339, lng: 120.248, type: "gas" },
-    { name: "台亞石油 義竹站", lat: 23.338, lng: 120.241, type: "gas" },
+    { name: "台灣中油 義竹站(直營)", lat: 23.3392249, lng: 120.2493839, type: "gas" },
 
     // (建議) 美食
     { name: "義竹阿婆冰", lat: 23.33700, lng: 120.24400, type: "food" },
@@ -119,8 +108,8 @@ const amenities = [
 // 3. 產生標記 (依照類型分配圖標)
 amenities.forEach(item => {
     let icon;
-    if (item.type === 'store_711') icon = L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/40/7-eleven_logo.svg', iconSize: [25, 25] });
-    else if (item.type === 'store_hilife') icon = L.icon({ iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Hi-Life_Logo.svg', iconSize: [25, 25] }); // 可換成其他愛心圖標
+    if (item.type === 'store_711') icon = L.icon({ iconUrl: './media/map/7-Eleven-Logo.png', iconSize: [25, 25] });
+    else if (item.type === 'store_hilife') icon = L.icon({ iconUrl: './media/map/HiLife-logo.svg.png', iconSize: [25, 25] }); // 可換成其他愛心圖標
     else if (item.type === 'gas') icon = storeIcon; // 暫用綠色圖標
     else icon = storeIcon;
 

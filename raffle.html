@@ -30,12 +30,12 @@
             <a href="introduce.html" class="links">『義』同探索</a>
 
             <!--地圖按鈕-->
-            <a href="map.html" class="links">地圖</a>
+            <a href="map.html" class="links">『義』覽無遺</a>
 
             <!--抽籤按鈕-->
             <a href="raffle.html" class="links" style="background-color: #ded3bf; color: #3f1a12;">『義』點迷津</a>
             
-            <a href="#contactus" class="links">聯絡我們</a>
+            <a href="#contactus" class="links">『義』打就通</a>
         </div>
     </div>
     <div class="container my-4">
@@ -56,6 +56,7 @@
                 <div class="p-3 border-top">
                     <div class="d-grid gap-2">
                         <button class="btn btn-primary" onclick="generateRoute()">🗺️ 規劃路線 (Google Maps)</button>
+                        <button class="btn btn-warning text-white fw-bold flex-grow-1" onclick="calculateAndShowOptimized()">⚡ 計算最佳路徑</button>
                     </div>
                 </div>
             </div>
@@ -83,10 +84,38 @@
                             <span class="text-muted" style="font-size: 14px;">(已選 <span id="selectedCount">0</span> 個)</span>
                         </div>
                         <div class="col-auto">
-                            <button class="btn btn-danger text-white fw-bold px-4" onclick="startRaffle()">開始抽籤</button>
+                            <button class="btn btn-danger text-white fw-bold px-4" onclick="startRaffle()">『義』點迷津</button>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="optimizedSection" class="row mt-5 d-none">
+            <div class="col-12">
+                <h3 class="fw-bold mb-4 border-start border-5 border-warning ps-3" style="color: #da7727;">
+                    ⚡ 建議最佳路線 (省時省油)
+                </h3>
+                
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <div id="optimizedPathContainer" class="d-flex flex-wrap align-items-center gap-3 mb-4 justify-content-center">
+                        </div>
+
+                    <div class="text-center border-top pt-3">
+                        <p class="text-muted small mb-2">已根據最短直線距離重新排序</p>
+                        <button id="btnOptimizedMap" class="btn btn-lg btn-success rounded-pill px-5 shadow">
+                            🚗 開啟最佳路線導航 (Google Maps)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="resultSection" class="row mt-5 d-none">
+            <div class="col-12">
+                <h3 class="fw-bold mb-4 border-start border-5 border-success ps-3" style="color: #314743;">
+                    詳細資訊
+                </h3>
+                
+                <div id="resultCardsContainer" class="row g-4"></div>
             </div>
         </div>
     </div>
@@ -116,24 +145,26 @@
     <div>
 
     </div>
+    </div> 
+
     
 </body>
 <footer class="footer-section" id="contactus">
     <div class="footer-container">
         
         <div class="footer-content">
-            <h3 class="fw-bold text-white mb-3">快速連結</h3>
+            <h3 class="fw-bold mb-3" style="color: #1a2134;">快速連結</h3>
             <ul class="list-unstyled fs-5">
                 <li><a href="index.html" class="footer-link">首頁</a></li>
-                <li><a href="introduce.html" class="footer-link">義竹簡介</a></li>
-                <li><a href="map.html" class="footer-link">地圖導覽</a></li>
-                <li><a href="raffle.html" class="footer-link">景點抽籤</a></li>
+                <li><a href="introduce.html" class="footer-link">『義』同探索</a></li>
+                <li><a href="map.html" class="footer-link">『義』覽無遺</a></li>
+                <li><a href="raffle.html" class="footer-link">『義』點迷津</a></li>
             </ul>
         </div>
 
         <div class="footer-content">
-            <h3 class="fw-bold text-white mb-3">聯絡我們</h3>
-            <ul class="list-unstyled text-white-50 small fs-5">
+            <h3 class="fw-bold mb-3" style="color: #1a2134;">聯絡我們</h3>
+            <ul class="list-unstyled small fs-5">
                 <li class="mb-2">📍 嘉義市新民路580號</li>
                 <li class="mb-2">📞 05-123-4567</li>
                 <li class="mb-2">✉️ yijhu-travel@gmail.com</li>
