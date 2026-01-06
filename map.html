@@ -3,12 +3,18 @@
 <head>
     <title>義竹地圖</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="CSS/style.css">
-    
 
 </head>
 <body>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="JS/placesData.js" defer></script> 
+    <script src="JS/map-logic.js" defer></script>
     <script src="JS/totop.js" defer></script>
+    
+    
+
 
     <a href="#top" class="ToTop"><img src="media/up.svg"></a>
     <!--導覽列-->
@@ -35,6 +41,48 @@
             <a href="#contactus" class="links">聯絡我們</a>
         </div>
     </div>
+
+    <div class="map-container" style="position: relative; height: 80vh; width: 100%;">
+        
+        <div id="mainMap" style="height: 100%; width: 100%; z-index: 1;"></div>
+
+        <div class="map-controls">
+            <div class="btn-group mb-2 shadow">
+                <button class="btn btn-light fw-bold" onclick="flyToLocation(23.337, 120.245)">🏙️ 義竹市區</button>
+                <button class="btn btn-light fw-bold" onclick="flyToLocation(23.3785, 120.2455)">⛪ 東後寮區</button>
+            </div>
+
+    <div class="bg-white p-2 rounded shadow">
+    
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="toggleStoreMain" checked onchange="toggleMainStore()">
+            <label class="form-check-label fw-bold" for="toggleStoreMain">🏪 便利商店 (全選)</label>
+        </div>
+
+        <div class="ms-3 border-start ps-2 mb-2">
+            <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="toggle711" checked onchange="toggleLayer('store_711')">
+                    <label class="form-check-label small" for="toggle711">7-ELEVEN</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="toggleHilife" checked onchange="toggleLayer('store_hilife')">
+                    <label class="form-check-label small" for="toggleHilife">萊爾富</label>
+                </div>
+            </div>
+
+            <div class="form-check form-switch border-top pt-2">
+                <input class="form-check-input" type="checkbox" id="toggleGas" checked onchange="toggleLayer('gas')">
+                <label class="form-check-label fw-bold" for="toggleGas">⛽ 加油站</label>
+            </div>
+
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="toggleFood" checked onchange="toggleLayer('food')">
+                <label class="form-check-label fw-bold" for="toggleFood">🍜 在地美食</label>
+            </div>
+        </div>
+    </div>
+
+
     
 </body>
 <footer class="footer-section" id="contactus">

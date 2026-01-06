@@ -289,7 +289,53 @@ p {
     box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
 }
 /*============================================
-    6.Raffle
+    5.Map
+  ============================================*/
+.map-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000; /* 確保浮在地圖上面 */
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 10px;
+}
+
+/* 自訂 Popup 樣式 */
+.custom-popup .leaflet-popup-content-wrapper {
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+}
+.custom-popup .leaflet-popup-content {
+    margin: 0;
+    width: 200px !important;
+}
+.popup-img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+.popup-body {
+    padding: 10px;
+}
+
+.my-map-tooltip {
+    background-color: rgba(255, 255, 255, 0.95);
+    border: 2px solid #314743; /* 配合你的主色系 */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 5px;
+    font-family: "微軟正黑體", sans-serif;
+}
+
+/* 讓 Tooltip 的小三角形也變色 (進階) */
+.my-map-tooltip::before {
+    border-top-color: #314743;
+}
+/*============================================
+    6.raffle
   ============================================*/
   /* --- 抽籤頁面專用樣式 --- */
 
@@ -438,3 +484,4 @@ p {
     /* 4. 避免孤兒字：自動平衡每行的長度 (Chrome/Edge 新功能) */
     text-wrap: pretty; 
 }
+
